@@ -1,31 +1,31 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>LA TV Shows | Home</title>
-    <meta name="description" content="A Catalog of Shows Set in Los Angeles" />
+    <title>Bible Verses</title>
+    <meta name="description" content="A Catalog of Bible Verses with Themes and Translations" />
     <link rel="stylesheet" href="style.css" />
     <script type="text/javascript" src="scripts.js"></script>
   </head>
 
   <body>
     <header class="main-header">
-      <h1 class="title">LA TV Shows</h1>
+      <h1 class="title">Bible Verses</h1>
     </header>
-    <div id="card-container"></div>
-    <div class="card" style="display: none">
-      <div class="card-content">
-        <h2>TV Show Title</h2>
-        <img src="" alt="TV Show Poster" />
-        <ul>
-          <li>Bullet Point 1</li>
-          <li>Bullet Point 2</li>
-          <li>Bullet Point 3</li>
-        </ul>
-      </div>
+
+    <label for="themeFilter">Filter by Theme</label>
+    <div class="container">
+      <select id="themeFilter">
+        <option value="All">All</option>
+        <option value="Faith">Faith</option>
+        <option value="Hope">Hope</option>
+        <option value="Anxiety">Anxiety</option>
+        <option value="Peace">Peace</option>
+        <option value="Love">Love</option>
+      </select>
     </div>
-    <div class="footer">
-      <button onclick="quoteAlert();">Get A Quote!</button>
-      <button onclick="removeLastCard();">Remove A Card!</button>
-    </div>
+
+    <div id="verse-container" class="verses-grid"></div>
+
+    <div class="footer"></div>
   </body>
 </html>

@@ -23,75 +23,104 @@
  *
  */
 
-const FRESH_PRINCE_URL =
-  "https://upload.wikimedia.org/wikipedia/en/3/33/Fresh_Prince_S1_DVD.jpg";
-const CURB_POSTER_URL =
-  "https://m.media-amazon.com/images/M/MV5BZDY1ZGM4OGItMWMyNS00MDAyLWE2Y2MtZTFhMTU0MGI5ZDFlXkEyXkFqcGdeQXVyMDc5ODIzMw@@._V1_FMjpg_UX1000_.jpg";
-const EAST_LOS_HIGH_POSTER_URL =
-  "https://static.wikia.nocookie.net/hulu/images/6/64/East_Los_High.jpg";
+let allVerses = [];
+let translations = ["RCV", "NIV", "ESV"];
 
-// This is an array of strings (TV show titles)
-let titles = [
-  "Fresh Prince of Bel Air",
-  "Curb Your Enthusiasm",
-  "East Los High",
-];
-// Your final submission should have much more data than this, and
-// you should use more than just an array of strings to store it all.
+console.log(fetch("bible_verses.json"));
 
-// This function adds cards the page to display the data in the array
-function showCards() {
-  const cardContainer = document.getElementById("card-container");
-  cardContainer.innerHTML = "";
-  const templateCard = document.querySelector(".card");
+fetch("bible_verses.json")
+  .then((response) => {
+    return response.json();
+  })
+  .then((data) => {
+    allVerses = data;
+    console.log("inside fetch =", allVerses);
+    renderVerses(allVerses);
+  })
+  
+console.log("outside fetch =", allVerses);
+  
+function renderVerses(verses, selectedTranslation = "RCV") {
+  const container = document.getElementById("verse-container");
+  container.innerHTML = ""; // Clear out old content
 
-  for (let i = 0; i < titles.length; i++) {
-    let title = titles[i];
+  verses.forEach((verse) => {
+    // console.log("verse = ", verse.translations.RCV);
 
-    // This part of the code doesn't scale very well! After you add your
-    // own data, you'll need to do something totally different here.
-    let imageURL = "";
-    if (i == 0) {
-      imageURL = FRESH_PRINCE_URL;
-    } else if (i == 1) {
-      imageURL = CURB_POSTER_URL;
-    } else if (i == 2) {
-      imageURL = EAST_LOS_HIGH_POSTER_URL;
+    const card = document.createElement("div");
+    card.className = "verse-card";
+
+    const theme = document.createElement("h3");
+    theme.textContent = verse.theme;
+
+    const reference = document.createElement("p");
+    reference.textContent = verse.reference;
+
+    const verseText = document.createElement("p");
+    verseText.textContent = verse.translations[selectedTranslation];
+
+    // Dropdown for translations
+    const translationsDropdown = document.createElement("select");
+    translationsDropdown.className = "translation-select";
+
+    translations.forEach((translation) => {
+      const option = document.createElement("option");
+      option.value = translation;
+      option.text = translation;
+      if (translation === selectedTranslation) {
+        option.selected = true;
+      }
+      translationsDropdown.appendChild(option);
+    });
+
+    // When different translation is selected, update verse text
+    translationsDropdown.addEventListener("change", (event) => {
+      const translationToDisplay = event.target.value;
+      verseText.textContent = verse.translations[translationToDisplay];
+    });
+
+    // const rcv = document.createElement("p");
+    // rcv.innerHTML = `<strong>RCV:</strong> ${verse.translations.RCV}`;
+    
+    // const niv = document.createElement("p");
+    // niv.innerHTML = `<strong>NIV:</strong> ${verse.translations.NIV}`;
+    
+    // const esv = document.createElement("p");
+    // esv.innerHTML = `<strong>ESV:</strong> ${verse.translations.ESV}`;
+
+    // Add elements to card
+    card.appendChild(theme);
+    card.appendChild(reference);
+    card.appendChild(verseText);
+    card.appendChild(translationsDropdown);
+    // card.appendChild(rcv);
+    // card.appendChild(niv);
+    // card.appendChild(esv);
+
+    // Add card to page
+    container.appendChild(card);
+  });
+}
+
+// Filter the verses based on selected theme
+function filterTheme() {
+  const themes = document.getElementById("themeFilter");
+
+  themes.addEventListener("change", (event) => {
+    const selectedTheme = event.target.value;
+
+    let filteredVerses = [];
+
+    if (selectedTheme === "All") {
+      filteredVerses = allVerses;
+    }
+    else {
+      filteredVerses = allVerses.filter((verse) => verse.theme === selectedTheme);
     }
 
-    const nextCard = templateCard.cloneNode(true); // Copy the template card
-    editCardContent(nextCard, title, imageURL); // Edit title and image
-    cardContainer.appendChild(nextCard); // Add new card to the container
-  }
+    // Re-render the verses using the filtered array
+    renderVerses(filteredVerses);
+  });
 }
 
-function editCardContent(card, newTitle, newImageURL) {
-  card.style.display = "block";
-
-  const cardHeader = card.querySelector("h2");
-  cardHeader.textContent = newTitle;
-
-  const cardImage = card.querySelector("img");
-  cardImage.src = newImageURL;
-  cardImage.alt = newTitle + " Poster";
-
-  // You can use console.log to help you debug!
-  // View the output by right clicking on your website,
-  // select "Inspect", then click on the "Console" tab
-  console.log("new card:", newTitle, "- html: ", card);
-}
-
-// This calls the addCards() function when the page is first loaded
-document.addEventListener("DOMContentLoaded", showCards);
-
-function quoteAlert() {
-  console.log("Button Clicked!");
-  alert(
-    "I guess I can kiss heaven goodbye, because it got to be a sin to look this good!"
-  );
-}
-
-function removeLastCard() {
-  titles.pop(); // Remove last item in titles array
-  showCards(); // Call showCards again to refresh
-}
+document.addEventListener("DOMContentLoaded", filterTheme);

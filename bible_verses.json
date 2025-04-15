@@ -54,6 +54,33 @@
     }
   },
   {
+    "theme": "Tripartite Man",
+    "reference": "1 Thessalonians 5:23",
+    "translations": {
+      "RCV": "And the God of peace Himself sanctify you wholly, and may your spirit and soul and body be preserved complete, without blame, at the coming of our Lord Jesus Christ.",
+      "ESV": "Now may the God of peace himself sanctify you completely, and may your whole spirit and soul and body be kept blameless at the coming of our Lord Jesus Christ.",
+      "NIV": "May God himself, the God of peace, sanctify you through and through. May your whole spirit, soul and body be kept blameless at the coming of our Lord Jesus Christ."
+    }
+  },
+  {
+    "theme": "Tripartite Man",
+    "reference": "Hebrews 4:12",
+    "translations": {
+      "RCV": "For the word of God is living and operative and sharper than any two-edged sword, and piercing even to the dividing of soul and spirit and of joints and marrow, and able to discern the thoughts and intentions of the heart.",
+      "ESV": "For the word of God is living and active, sharper than any two-edged sword, piercing to the division of soul and of spirit, of joints and of marrow, and discerning the thoughts and intentions of the heart.",
+      "NIV": "For the word of God is alive and active. Sharper than any double-edged sword, it penetrates even to dividing soul and spirit, joints and marrow; it judges the thoughts and attitudes of the heart."
+    }
+  },
+  {
+    "theme": "Triune God",
+    "reference": "Matthew 28:19",
+    "translations": {
+      "RCV": "Go therefore and disciple all the nations, baptizing them into the name of the Father and of the Son and of the Holy Spirit,",
+      "ESV": "Go therefore and make disciples of all nations, baptizing them in the name of the Father and of the Son and of the Holy Spirit,",
+      "NIV": "Therefore go and make disciples of all nations, baptizing them in the name of the Father and of the Son and of the Holy Spirit,"
+    }
+  },
+  {
     "theme": "Hope",
     "reference": "Jeremiah 29:11",
     "translations": {
@@ -105,6 +132,33 @@
       "RCV": "In the hope of eternal life, which God, who cannot lie, promised before the times of the ages,",
       "ESV": "in hope of eternal life, which God, who never lies, promised before the ages began",
       "NIV": "in the hope of eternal life, which God, who does not lie, promised before the beginning of time,"
+    }
+  },
+  {
+    "theme": "Calling on His Name and Being Saved",
+    "reference": "Acts 2:21",
+    "translations": {
+      "RCV": "And it shall be that everyone who calls on the name of the Lord shall be saved.\"",
+      "ESV": "And it shall come to pass that everyone who calls upon the name of the Lord shall be saved.'",
+      "NIV": "And everyone who calls on the name of the Lord will be saved.'"
+    }
+  },
+  {
+    "theme": "Calling on His Name and Being Saved",
+    "reference": "Romans 10:9",
+    "translations": {
+      "RCV": "That if you confess with your mouth Jesus as Lord and believe in your heart that God has raised Him from the dead, you will be saved;",
+      "ESV": "because, if you confess with your mouth that Jesus is Lord and believe in your heart that God raised him from the dead, you will be saved.",
+      "NIV": "If you declare with your mouth, \"Jesus is Lord,\" and believe in your heart that God raised him from the dead, you will be saved."
+    }
+  },
+  {
+    "theme": "Calling on His Name and Being Saved",
+    "reference": "Romans 10:13",
+    "translations": {
+      "RCV": "For \"whoever calls upon the name of the Lord shall be saved.\"",
+      "ESV": "For \"everyone who calls on the name of the Lord will be saved.\"",
+      "NIV": "for, \"Everyone who calls on the name of the Lord will be saved.\""
     }
   },
   {

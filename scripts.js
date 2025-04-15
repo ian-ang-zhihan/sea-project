@@ -8,6 +8,7 @@
  *
 */
 
+
 // Global Variables
 let allVerses = [];
 let translations = ["RCV", "ESV", "NIV"];
@@ -22,27 +23,35 @@ function updateThemes() {
 
 
 // Create dropdown filter for themes
-function createThemeFilter() {
+function createThemeDropdown() {
   const themeFilter = document.getElementById("theme-filter");
-  themeFilter.innerHTML = ""; // Clear existing options
+  const currentTheme = themeFilter.value; // Store current selected theme before rebuilding the dropdown
+  themeFilter.innerHTML = ""; // Clear the dropdown
 
   updateThemes();
 
+  // Rebuild the dropdown options
   themes.forEach((theme) => {
     const option = document.createElement("option");
     option.value = theme;
     option.textContent = theme;
     themeFilter.appendChild(option);
   });
+
+  // Reselect the user's current theme or fall back to "All"
+  themeFilter.value = themes.includes(currentTheme) 
+    ? currentTheme 
+    : "All";
   
+  // Filter verses when dropdown changes
   themeFilter.addEventListener("change", (event) => {
-    const currentThemeFilter = event.target.value;
+    const selectedTheme = event.target.value;
     
-    const filteredVerses = currentThemeFilter === "All" 
+    const filteredVerses = selectedTheme === "All" 
       ? allVerses 
-      : allVerses.filter((verse) => verse.theme === currentThemeFilter);
+      : allVerses.filter((verse) => verse.theme === selectedTheme);
       
-      renderVerses(filteredVerses);
+    renderVerses(filteredVerses);
   });
 }
 
@@ -51,7 +60,7 @@ function renderVerses(verses, selectedTranslation = "RCV") {
   const container = document.getElementById("verse-container");
   container.innerHTML = ""; // Clear out old content
 
-  verses.forEach((verse, index) => {
+  verses.forEach((verse) => {
     // Create verse card
     const card = document.createElement("div");
     card.className = "verse-card";
@@ -85,11 +94,16 @@ function renderVerses(verses, selectedTranslation = "RCV") {
       verseText.textContent = verse.translations[translationToDisplay];
     });
 
-    // Remove verse
+    // Create remove button
     const removeVerse = document.createElement("button");
     removeVerse.className = "remove-verse-btn";
     removeVerse.textContent = "X";
+
+    // Remove verse
     removeVerse.addEventListener("click", () => {
+      const confirmDelete = confirm("Are you sure you want to delete this verse?");
+      if (!confirmDelete) return;
+      
       const verseIndex = allVerses.findIndex((v) => {
         return (v.reference === verse.reference && v.theme === verse.theme && JSON.stringify(v.translations) === JSON.stringify(verse.translations));
       });
@@ -98,9 +112,16 @@ function renderVerses(verses, selectedTranslation = "RCV") {
         allVerses.splice(verseIndex, 1);
       }
 
-      // Re-create theme dropdown and re-render verses
-      createThemeFilter();
-      renderVerses(allVerses);
+      // Refresh the theme dropdown
+      createThemeDropdown();
+
+      // Get the currently selected theme after rebuild
+      const selectedTheme = document.getElementById("theme-filter").value;
+      const filteredVerses = selectedTheme === "All"
+        ? allVerses
+        : allVerses.filter((v) => v.theme === selectedTheme);
+
+      renderVerses(filteredVerses);
     });
       
     // Assemble card
@@ -148,7 +169,7 @@ function addNewVerse() {
       themes.push(newTheme);
     }
     
-    createThemeFilter();
+    createThemeDropdown();
     renderVerses(allVerses);
 
     form.reset();
@@ -167,6 +188,6 @@ document.addEventListener("DOMContentLoaded", () => {
       allVerses = data;
       
       renderVerses(allVerses);
-      createThemeFilter();
+      createThemeDropdown();
     })
 });

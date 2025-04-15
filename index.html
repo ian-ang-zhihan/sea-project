@@ -3,30 +3,35 @@
   <head>
     <title>Bible Verses</title>
     <meta name="description" content="A Catalog of Bible Verses with Themes and Translations" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
-    <script type="text/javascript" src="scripts.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap" rel="stylesheet" />
+    <script type="text/javascript" src="scripts.js" defer></script>
   </head>
 
   <body>
     <header class="main-header">
-      <h1 class="title">Bible Verses</h1>
+      <h1 class="page-title">Bible Verse Catalog</h1>
     </header>
 
-    <label for="themeFilter">Filter by Theme</label>
-    <div class="container">
-      <select id="themeFilter"></select>
+    <!-- Sticky filter bar -->
+    <div class="filter-bar">
+      <label for="theme-filter">Filter by Theme</label>
+      <select id="theme-filter" class="theme-select"></select>
     </div>
 
-    <div id="verse-container" class="verses-grid"></div>
+    <!-- Container for all verse cards -->
+    <div id="verse-container" class="verse-grid"></div>
 
+    <!-- Add a new verse form -->
     <div class="footer">
-      <form id="addVerseForm">
+      <form id="add-verse-form" class="add-verse-form">
         <h2>Add a New Verse</h2>
-        <input type="text" id="newTheme" placeholder="Theme (e.g. Faith)" required />
-        <input type="text" id="newReference" placeholder="Reference (e.g. John 3:16)" required />
-        <input type="text" id="newRCV" placeholder="RCV Translation" required />
-        <input type="text" id="newESV" placeholder="ESV Translation" required />
-        <input type="text" id="newNIV" placeholder="NIV Translation" required />
+        <input type="text" id="new-theme" placeholder="Theme (e.g. Faith)" required />
+        <input type="text" id="new-reference" placeholder="Reference (e.g. John 3:16)" required />
+        <input type="text" id="new-rcv" placeholder="Recovery Version" required />
+        <input type="text" id="new-esv" placeholder="English Standard Version" required />
+        <input type="text" id="new-niv" placeholder="New International Version" required />
         <button type="submit">Add Verse</button>
       </form>
     </div>

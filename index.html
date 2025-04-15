@@ -14,18 +14,21 @@
 
     <label for="themeFilter">Filter by Theme</label>
     <div class="container">
-      <select id="themeFilter">
-        <option value="All">All</option>
-        <option value="Faith">Faith</option>
-        <option value="Hope">Hope</option>
-        <option value="Anxiety">Anxiety</option>
-        <option value="Peace">Peace</option>
-        <option value="Love">Love</option>
-      </select>
+      <select id="themeFilter"></select>
     </div>
 
     <div id="verse-container" class="verses-grid"></div>
 
-    <div class="footer"></div>
+    <div class="footer">
+      <form id="addVerseForm">
+        <h2>Add a New Verse</h2>
+        <input type="text" id="newTheme" placeholder="Theme (e.g. Faith)" required />
+        <input type="text" id="newReference" placeholder="Reference (e.g. John 3:16)" required />
+        <input type="text" id="newRCV" placeholder="RCV Translation" required />
+        <input type="text" id="newESV" placeholder="ESV Translation" required />
+        <input type="text" id="newNIV" placeholder="NIV Translation" required />
+        <button type="submit">Add Verse</button>
+      </form>
+    </div>
   </body>
 </html>

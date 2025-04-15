@@ -24,7 +24,8 @@
  */
 
 let allVerses = [];
-let translations = ["RCV", "NIV", "ESV"];
+let translations = ["RCV", "ESV", "NIV"];
+let themes = ["All", "Faith", "Hope", "Anxiety", "Peace", "Love"];
 
 console.log(fetch("bible_verses.json"));
 
@@ -81,13 +82,13 @@ function renderVerses(verses, selectedTranslation = "RCV") {
 
     // const rcv = document.createElement("p");
     // rcv.innerHTML = `<strong>RCV:</strong> ${verse.translations.RCV}`;
-    
+
     // const niv = document.createElement("p");
     // niv.innerHTML = `<strong>NIV:</strong> ${verse.translations.NIV}`;
-    
+
     // const esv = document.createElement("p");
     // esv.innerHTML = `<strong>ESV:</strong> ${verse.translations.ESV}`;
-
+    
     // Add elements to card
     card.appendChild(theme);
     card.appendChild(reference);
@@ -102,25 +103,66 @@ function renderVerses(verses, selectedTranslation = "RCV") {
   });
 }
 
-// Filter the verses based on selected theme
-function filterTheme() {
-  const themes = document.getElementById("themeFilter");
+// Create dynamic dropdown to filter by theme
+function createThemeFilter() {
+  const themeFilter = document.getElementById("themeFilter");
 
-  themes.addEventListener("change", (event) => {
+  themeFilter.innerHTML = "";
+
+  themes.forEach((theme) => {
+    const option = document.createElement("option");
+    option.value = theme;
+    option.textContent = theme;
+    themeFilter.appendChild(option);
+  });
+  
+  themeFilter.addEventListener("change", (event) => {
     const selectedTheme = event.target.value;
-
-    let filteredVerses = [];
-
-    if (selectedTheme === "All") {
-      filteredVerses = allVerses;
-    }
-    else {
-      filteredVerses = allVerses.filter((verse) => verse.theme === selectedTheme);
-    }
-
+    
+    const filteredVerses = selectedTheme === "All" ? allVerses : allVerses.filter((verse) => verse.theme === selectedTheme);
+    
     // Re-render the verses using the filtered array
     renderVerses(filteredVerses);
   });
 }
 
-document.addEventListener("DOMContentLoaded", filterTheme);
+function addNewVerse() {
+  const form = document.getElementById("addVerseForm");
+
+  form.addEventListener("submit", (event) => {
+    event.preventDefault(); // Stop page from refreshing
+
+    const newTheme = document.getElementById("newTheme").value;
+    const newReference = document.getElementById("newReference").value;
+    const newRCV = document.getElementById("newRCV").value;
+    const newESV = document.getElementById("newESV").value;
+    const newNIV = document.getElementById("newNIV").value;
+
+    const newVerse = {
+      theme: newTheme,
+      reference: newReference,
+      translations: {
+        RCV: newRCV,
+        ESV: newESV,
+        NIV: newNIV,
+      },
+    };
+
+    allVerses.push(newVerse);
+    alert("New Verse Card Added!");
+    console.log("allVerses after addNewVerse() = ", allVerses);
+
+    if (!themes.includes(newTheme)) {
+      themes.push(newTheme);
+    }
+
+    createThemeFilter();
+    renderVerses(allVerses);
+
+    form.reset();
+  });
+}
+
+// document.addEventListener("DOMContentLoaded", filterTheme);
+document.addEventListener("DOMContentLoaded", addNewVerse);
+document.addEventListener("DOMContentLoaded", createThemeFilter);

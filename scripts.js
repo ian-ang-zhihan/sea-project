@@ -190,4 +190,7 @@ document.addEventListener("DOMContentLoaded", () => {
       renderVerses(allVerses);
       createThemeDropdown();
     })
+    .catch((err) => {
+      console.log("Error loading verses: ", err);
+    });
 });

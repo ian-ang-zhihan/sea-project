@@ -21,6 +21,20 @@ function updateThemes() {
   themes = ["All", ...uniqueThemes];
 }
 
+function getFilteredVerses(theme) {
+  return theme === "All"
+    ? allVerses
+    : allVerses.filter((verse) => verse.theme === theme);
+}
+
+
+function findVerseIndex(verse) {
+  return allVerses.findIndex((v) => 
+    v.theme === verse.theme && 
+    v.reference === verse.reference && 
+    JSON.stringify(v.translations) === JSON.stringify(verse.translations)
+  );
+}
 
 // Create dropdown filter for themes
 function createThemeDropdown() {
@@ -47,12 +61,28 @@ function createThemeDropdown() {
   themeFilter.addEventListener("change", (event) => {
     const selectedTheme = event.target.value;
     
-    const filteredVerses = selectedTheme === "All" 
-      ? allVerses 
-      : allVerses.filter((verse) => verse.theme === selectedTheme);
-      
+    const filteredVerses = getFilteredVerses(selectedTheme);
     renderVerses(filteredVerses);
   });
+}
+
+function confirmAndDeleteVerse(verse) {
+  const confirmDelete = confirm("Are you sure you want to delete this verse?");
+  if (!confirmDelete) return;
+  
+  const verseIndex = findVerseIndex(verse);
+  
+  if (verseIndex !== -1) {
+    allVerses.splice(verseIndex, 1);
+  }
+  
+  // Refresh the theme dropdown
+  createThemeDropdown();
+  
+  // Get the currently selected theme after rebuild
+  const selectedTheme = document.getElementById("theme-filter").value;
+  const filteredVerses = getFilteredVerses(selectedTheme);
+  renderVerses(filteredVerses);
 }
 
 
@@ -95,41 +125,19 @@ function renderVerses(verses, selectedTranslation = "RCV") {
     });
 
     // Create remove button
-    const removeVerse = document.createElement("button");
-    removeVerse.className = "remove-verse-btn";
-    removeVerse.textContent = "X";
+    const removeVerseBtn = document.createElement("button");
+    removeVerseBtn.className = "remove-verse-btn";
+    removeVerseBtn.textContent = "X";
 
     // Remove verse
-    removeVerse.addEventListener("click", () => {
-      const confirmDelete = confirm("Are you sure you want to delete this verse?");
-      if (!confirmDelete) return;
-      
-      const verseIndex = allVerses.findIndex((v) => {
-        return (v.reference === verse.reference && v.theme === verse.theme && JSON.stringify(v.translations) === JSON.stringify(verse.translations));
-      });
-
-      if (verseIndex !== -1) {
-        allVerses.splice(verseIndex, 1);
-      }
-
-      // Refresh the theme dropdown
-      createThemeDropdown();
-
-      // Get the currently selected theme after rebuild
-      const selectedTheme = document.getElementById("theme-filter").value;
-      const filteredVerses = selectedTheme === "All"
-        ? allVerses
-        : allVerses.filter((v) => v.theme === selectedTheme);
-
-      renderVerses(filteredVerses);
-    });
+    removeVerseBtn.addEventListener("click", () => confirmAndDeleteVerse(verse));
       
     // Assemble card
     card.appendChild(theme);
     card.appendChild(reference);
     card.appendChild(verseText);
     card.appendChild(translationDropdown);
-    card.appendChild(removeVerse);
+    card.appendChild(removeVerseBtn);
     
     // Add card to page
     container.appendChild(card);

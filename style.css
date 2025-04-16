@@ -69,14 +69,28 @@ body {
   padding: 0.4rem;
 }
 
-.remove-verse-btn {
-  background-color: #dc2626;
-  color: white;
+.verse-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0.5rem;
+  border-radius: 6px;
   border: none;
-  border-radius: 5px;
-  padding: 0.3rem 0.6rem;
-  margin-top: 0.5rem;
   cursor: pointer;
+  font-size: 1rem;
+  margin-top: 0.5rem;
+}
+
+.copy-verse-btn {
+  background-color: #f4efe3;
+}
+
+.remove-verse-btn {
+  background-color: #e53935;
+  color: white;
+  margin-left: 8px;
 }
 
 /* Add verse form styling */
@@ -96,4 +110,24 @@ body {
   font-size: 1rem;
   border-radius: 5px;
   border: 1px solid #ccc;
+}
+
+.toast {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  background-color: #d4edda;
+  color: #155724;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  font-size: 1rem;
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease-in-out;
+}
+
+.toast.show {
+  opacity: 1;
 }

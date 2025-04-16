@@ -156,6 +156,13 @@ function addNewVerse() {
     const newReference = document
       .getElementById("new-reference")
       .value.trim();
+
+    const referenceRegex = /^[1-3]?\s?[A-Za-z]+(?:\s[A-Za-z]+)*\s\d{1,3}:\d{1,3}$/;
+    if (!referenceRegex.test(newReference)) {
+      alert("Please enter a valid reference (e.g. John 3:16, 1 Peter 2:9).")
+      return;
+    }
+    
     const newRCV = document.getElementById("new-rcv").value.trim();
     const newESV = document.getElementById("new-esv").value.trim();
     const newNIV = document.getElementById("new-niv").value.trim();

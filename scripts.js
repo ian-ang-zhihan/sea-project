@@ -21,6 +21,7 @@ function updateThemes() {
   themes = ["All", ...uniqueThemes];
 }
 
+
 function getFilteredVerses(theme) {
   return theme === "All"
     ? allVerses
@@ -35,6 +36,7 @@ function findVerseIndex(verse) {
     JSON.stringify(v.translations) === JSON.stringify(verse.translations)
   );
 }
+
 
 // Create dropdown filter for themes
 function createThemeDropdown() {
@@ -103,7 +105,23 @@ function renderVerses(verses, selectedTranslation = "RCV") {
 
     const verseText = document.createElement("p");
     verseText.textContent = verse.translations[selectedTranslation];
+    
+    // Create copy button
+    const copyBtn = document.createElement("button");
+    copyBtn.classList.add("verse-btn", "copy-verse-btn");
+    copyBtn.textContent = "📋";
 
+    copyBtn.addEventListener("click", () => {
+      const verseToCopy = `${verse.reference} (${selectedTranslation}) - ${verse.translations[selectedTranslation]}`;
+      navigator.clipboard.writeText(verseToCopy)
+      .then(() => {
+        showToast("Verse copied!");
+      })
+      .catch((err) => {
+        console.log("Copy failed: ", err);
+      })
+    });
+      
     // Create translation dropdown
     const translationDropdown = document.createElement("select");
     translationDropdown.className = "translation-select";
@@ -117,16 +135,16 @@ function renderVerses(verses, selectedTranslation = "RCV") {
       }
       translationDropdown.appendChild(option);
     });
-  
+    
     // Toggle translation
     translationDropdown.addEventListener("change", (event) => {
       const translationToDisplay = event.target.value;
       verseText.textContent = verse.translations[translationToDisplay];
     });
-
+    
     // Create remove button
     const removeVerseBtn = document.createElement("button");
-    removeVerseBtn.className = "remove-verse-btn";
+    removeVerseBtn.classList.add("verse-btn", "remove-verse-btn");
     removeVerseBtn.textContent = "X";
 
     // Remove verse
@@ -137,6 +155,7 @@ function renderVerses(verses, selectedTranslation = "RCV") {
     card.appendChild(reference);
     card.appendChild(verseText);
     card.appendChild(translationDropdown);
+    card.appendChild(copyBtn);
     card.appendChild(removeVerseBtn);
     
     // Add card to page
@@ -162,7 +181,7 @@ function addNewVerse() {
       alert("Please enter a valid reference (e.g. John 3:16, 1 Peter 2:9).")
       return;
     }
-    
+
     const newRCV = document.getElementById("new-rcv").value.trim();
     const newESV = document.getElementById("new-esv").value.trim();
     const newNIV = document.getElementById("new-niv").value.trim();
@@ -178,7 +197,7 @@ function addNewVerse() {
     };
   
     allVerses.push(newVerse);
-    alert("New Verse Card Added!");
+    showToast("Verse Added!");
 
     if (!themes.includes(newTheme)) {
       themes.push(newTheme);
@@ -189,6 +208,18 @@ function addNewVerse() {
 
     form.reset();
   });
+}
+
+
+function showToast(message) {
+  const toast = document.getElementById("toast");
+  toast.textContent = `${message} ✅`;
+  toast.classList.add("show");
+
+  // Hide the toast after 3 seconds
+  setTimeout(() => {
+    toast.classList.remove("show");
+  }, 2000);
 }
 
 
